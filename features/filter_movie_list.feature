@@ -22,14 +22,30 @@ Background: movies have been added to database
   And  I am on the RottenPotatoes home page
   
 Scenario: restrict to movies with 'PG' or 'R' ratings
+
   # enter step(s) to check the 'PG' and 'R' checkboxes
   # enter step(s) to uncheck all other checkboxes
+  When I check the following ratings: "PG R"
+  And I uncheck the following ratings: "PG-13 G"
+
   # enter step to "submit" the search form on the homepage
+  And I press "ratings_submit"
+
   # enter step(s) to ensure that PG and R movies are visible
+  Then I should find text "Terminator Harry Raiders Incredibles Amelie" in table "movies"
+  And I should not find text "Alladin Odyssey Chicken Chocolat Help" in table "movies"
+  And Table "movies" should have 5 entries
+
   # enter step(s) to ensure that other movies are not visible
 
 Scenario: no ratings selected
-  # see assignment
+  When I check the following ratings: "PG R PG-13 G"
+  And I press "ratings_submit"
+  #Then Table "movies" should have 10 entries
+  Then I should see all of the movies
 
 Scenario: all ratings selected
-  # see assignment
+  When I uncheck the following ratings: "PG R PG-13 G"
+  And I press "ratings_submit"
+  Then Table "movies" should have 0 entries
+
