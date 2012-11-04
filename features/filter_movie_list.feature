@@ -39,13 +39,13 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
   # enter step(s) to ensure that other movies are not visible
 
 Scenario: no ratings selected
+  When I uncheck the following ratings: "PG R PG-13 G"
+  And I press "ratings_submit"
+  Then Table "movies" should have 0 entries
+
+Scenario: all ratings selected
   When I check the following ratings: "PG R PG-13 G"
   And I press "ratings_submit"
   #Then Table "movies" should have 10 entries
   Then I should see all of the movies
-
-Scenario: all ratings selected
-  When I uncheck the following ratings: "PG R PG-13 G"
-  And I press "ratings_submit"
-  Then Table "movies" should have 0 entries
 
